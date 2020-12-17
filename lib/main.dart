@@ -75,7 +75,9 @@ class _HomeState extends State<Home> {
                               : Icons.error),
                         ),
                         onChanged: (c) {
-                          print(c);
+                          setState(() {
+                            _toDoList[index]["ok"] = c;
+                          });
                         });
                   }))
         ],
