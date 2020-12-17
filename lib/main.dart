@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:async';
@@ -17,7 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List _toDoList = [];
+  List _toDoList = ["Dandy", "Daniel"];
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +44,17 @@ class _HomeState extends State<Home> {
                 color: Colors.blueAccent,
                 child: Text("ADD"),
                 textColor: Colors.white,
-              )
+              ),
             ]),
-          )
+          ),
+          Expanded(child: ListView.builder(
+            padding: EdgeInsets.only(top: 10.0),
+              itemCount: _toDoList.length,
+              itemBuilder: (context, index){
+                return ListTile(
+                  title: Text(_toDoList[index]),
+                );
+              }))
         ],
       ),
     );
