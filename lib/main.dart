@@ -78,26 +78,28 @@ super.initState();
               child: ListView.builder(
                   padding: EdgeInsets.only(top: 10.0),
                   itemCount: _toDoList.length,
-                  itemBuilder: (context, index) {
-                    // ignore: missing_required_param
-                    return CheckboxListTile(
-                        title: Text(_toDoList[index]["title"]),
-                        value: _toDoList[index]["ok"],
-                        secondary: CircleAvatar(
-                          child: Icon(_toDoList[index]["ok"]
-                              ? Icons.check
-                              : Icons.error),
-                        ),
-                        onChanged: (c) {
-                          setState(() {
-                            _toDoList[index]["ok"] = c;
-                            _saveData();
-                          });
-                        });
-                  }))
-        ],
+                  itemBuilder: buildItem),
+          )],
       ),
     );
+  }
+
+  Widget buildItem (context, index) {
+    // ignore: missing_required_param
+    return CheckboxListTile(
+        title: Text(_toDoList[index]["title"]),
+        value: _toDoList[index]["ok"],
+        secondary: CircleAvatar(
+          child: Icon(_toDoList[index]["ok"]
+              ? Icons.check
+              : Icons.error),
+        ),
+        onChanged: (c) {
+          setState(() {
+            _toDoList[index]["ok"] = c;
+            _saveData();
+          });
+        });
   }
 
   Future<File> _getFile() async {
