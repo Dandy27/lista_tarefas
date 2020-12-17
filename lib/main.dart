@@ -18,7 +18,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List _toDoList = ["Dandy", "Daniel"];
+  final _toDoController = TextEditingController();
+
+  List _toDoList = [];
+
+  void _addToDo() {
+    setState(() {
+      Map<String, dynamic> newToDo = Map();
+      newToDo["title"] = _toDoController.text;
+      _toDoController.text = "";
+      newToDo["ok"] = false;
+      _toDoList.add(newToDo);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,26 +47,37 @@ class _HomeState extends State<Home> {
             child: Row(children: <Widget>[
               Expanded(
                   child: TextField(
+                controller: _toDoController,
                 decoration: InputDecoration(
                     labelText: "Nova Tarefa",
                     labelStyle: TextStyle(color: Colors.blueAccent)),
               )),
               RaisedButton(
-                onPressed: () {},
                 color: Colors.blueAccent,
                 child: Text("ADD"),
                 textColor: Colors.white,
+                onPressed: _addToDo,
               ),
             ]),
           ),
-          Expanded(child: ListView.builder(
-            padding: EdgeInsets.only(top: 10.0),
-              itemCount: _toDoList.length,
-              itemBuilder: (context, index){
-                return ListTile(
-                  title: Text(_toDoList[index]),
-                );
-              }))
+          Expanded(
+              child: ListView.builder(
+                  padding: EdgeInsets.only(top: 10.0),
+                  itemCount: _toDoList.length,
+                  itemBuilder: (context, index) {
+                    // ignore: missing_required_param
+                    return CheckboxListTile(
+                        title: Text(_toDoList[index]["title"]),
+                        value: _toDoList[index]["ok"],
+                        secondary: CircleAvatar(
+                          child: Icon(_toDoList[index]["ok"]
+                              ? Icons.check
+                              : Icons.error),
+                        ),
+                        onChanged: (c) {
+                          print(c);
+                        });
+                  }))
         ],
       ),
     );
